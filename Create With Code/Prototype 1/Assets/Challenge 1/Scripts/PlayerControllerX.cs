@@ -8,22 +8,32 @@ public class PlayerControllerX : MonoBehaviour
     public float rotationSpeed;
     public float verticalInput;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    public GameObject Player;
+        // Start is called before the first frame update
+        void Start()
+        {
 
-    }
+        }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        // get the user's vertical input
-        verticalInput = Input.GetAxis("Vertical");
+        void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "obstacle")
+            {
+                transform.position = new Vector3(0, 0, 0);
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
 
-        // move the plane forward at a constant rate
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        // Update is called once per frame
+        void FixedUpdate()
+        {
+            // get the user's vertical input
+            verticalInput = Input.GetAxis("Vertical");
 
-        // tilt the plane up/down based on up/down arrow keys
-        transform.Rotate(Vector3.left * rotationSpeed * Time.deltaTime * verticalInput);
-    }
+            // move the plane forward at a constant rate
+            transform.Translate(Vector3.forward * Time.deltaTime * speed);
+
+            // tilt the plane up/down based on up/down arrow keys
+            transform.Rotate(Vector3.left * rotationSpeed * Time.deltaTime * verticalInput);
+        }
 }
