@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     public Rigidbody playerRb;
     public float jumpForce;
     public float gravityModifier;
-    public bool canJump = true;
+    public bool isOnGround = true;
 
     // Start is called before the first frame update
     void Start()
@@ -19,14 +19,15 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
-            
-            if (canJump == true)
-            {
-                playerRb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-                canJump = false;
-            }
+            playerRb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+            isOnGround = false;
         }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        isOnGround = true;
     }
 }
