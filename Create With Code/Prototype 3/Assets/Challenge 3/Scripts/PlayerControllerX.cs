@@ -41,6 +41,7 @@ public class PlayerControllerX : MonoBehaviour
         if (transform.position.y > topBound)
         {
             transform.position = new Vector3(transform.position.x, topBound, transform.position.z);
+            playerRb.velocity = new Vector3(0, 0, 0);
         }
     }
 
@@ -65,10 +66,16 @@ public class PlayerControllerX : MonoBehaviour
 
         }
 
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Ground") && !gameOver)
         {
             playerAudio.PlayOneShot(bounceSound, 1.0f);
             playerRb.AddForce(Vector3.up * 400);
+        }
+
+        if (other.gameObject.CompareTag("Ground") && gameOver)
+        {
+            transform.position = new Vector3(transform.position.x, -10, transform.position.z);
+            playerRb.useGravity = false;
         }
 
     }
